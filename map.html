@@ -12,7 +12,7 @@
             initialize = function() {
                 var mapOptions = {
                     center: new google.maps.LatLng(21.896710512476858, 119.3151574766245),
-                    zoom: 8,
+                    zoom: 13,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
 
@@ -21,9 +21,10 @@
 
                 $.getJSON('json/64000_64000120.json', function(data) {
                     var cunli_geojson = topojson.feature(data, data.objects.layer1).features;
+                    var bounds = new google.maps.LatLngBounds;
 
                     var style = {
-                        strokeColor: "#FFFF00",
+                        strokeColor: "#0000FF",
                         strokeWeight: 1,
                         strokeOpacity: 0.45,
                         fillOpacity: 0.1,
@@ -32,9 +33,15 @@
                     $.each(cunli_geojson, function(k, v) {
                         var cunli = new GeoJSON(cunli_geojson[k], style);
                         if(typeof cunli.setMap === 'function') {
+                            cunli.addListener('click', function() {
+                                alert(this.geojsonProperties['TV_ALL']);
+                            });
+                            var i = cunli.latLngs.getArray();
+                            bounds.extend(i['0']['j']['0']);
                             cunli.setMap(map);
                         }
                     });
+                    map.setCenter(bounds.getCenter());
                 });
             }
         </script>
