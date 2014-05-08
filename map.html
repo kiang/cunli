@@ -36,7 +36,7 @@
                 -webkit-box-shadow: inset 0 0 0;
                 box-shadow: inset 0 0 0;
             }
-            
+
             .labelCunli {
                 color: #FF0000;
             }
@@ -131,42 +131,51 @@
                         });
                         overlays = [];
 
+                        var pushPolygon = function(cunliPoint, k) {
+                            var i = cunliPoint.latLngs.getArray();
+
+                            var labelBounds = new google.maps.LatLngBounds;
+
+                            for (lk in i['0']['j']) {
+                                labelBounds.extend(i['0']['j'][lk]);
+                            }
+
+                            var myOptions = {
+                                content: cunli_geojson[k].properties.TV_ALL
+                                , boxStyle: {
+                                    border: "1px solid black"
+                                    , textAlign: "center"
+                                    , fontSize: "8pt"
+                                    , width: "80px"
+                                }
+                                , boxClass: 'labelCunli'
+                                , disableAutoPan: true
+                                , pixelOffset: new google.maps.Size(-25, 0)
+                                , position: labelBounds.getCenter()
+                                , closeBoxURL: ""
+                                , isHidden: false
+                                , pane: "mapPane"
+                                , enableEventPropagation: true
+                            };
+
+                            var ibLabel = new InfoBox(myOptions);
+                            ibLabel.open(map);
+                            overlays.push(ibLabel);
+
+                            bounds.extend(labelBounds.getCenter());
+                            cunliPoint.setMap(map);
+                            overlays.push(cunliPoint);
+                        }
+
                         $.each(cunli_geojson, function(k, v) {
                             var cunli = new GeoJSON(cunli_geojson[k], style);
                             if (typeof cunli.setMap === 'function') {
-                                var i = cunli.latLngs.getArray();
-                                
-                                var labelBounds = new google.maps.LatLngBounds;
-                                
-                                for(lk in i['0']['j']) {
-                                    labelBounds.extend(i['0']['j'][lk]);
+                                pushPolygon(cunli, k);
+                            } else if (null !== cunli_geojson[k].geometry) {
+                                //MultiPolygon
+                                for(mk in cunli) {
+                                    pushPolygon(cunli[mk], k);
                                 }
-
-                                var myOptions = {
-                                    content: cunli_geojson[k].properties.TV_ALL
-                                    , boxStyle: {
-                                        border: "1px solid black"
-                                        , textAlign: "center"
-                                        , fontSize: "8pt"
-                                        , width: "80px"
-                                    }
-                                    , boxClass: 'labelCunli'
-                                    , disableAutoPan: true
-                                    , pixelOffset: new google.maps.Size(-25, 0)
-                                    , position: labelBounds.getCenter()
-                                    , closeBoxURL: ""
-                                    , isHidden: false
-                                    , pane: "mapPane"
-                                    , enableEventPropagation: true
-                                };
-
-                                var ibLabel = new InfoBox(myOptions);
-                                ibLabel.open(map);
-                                overlays.push(ibLabel);
-
-                                bounds.extend(labelBounds.getCenter());
-                                cunli.setMap(map);
-                                overlays.push(cunli);
                             }
                         });
                         map.setCenter(bounds.getCenter());

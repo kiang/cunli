@@ -33,15 +33,24 @@
                     strokeOpacity: 0.45
                 };
 
+                var pushPolygon = function(cunliPoint, k) {
+                    cunliPoint.addListener('click', function() {
+                        alert(this.geojsonProperties['TV_ALL']);
+                    });
+                    var i = cunliPoint.latLngs.getArray();
+                    bounds.extend(i['0']['j']['0']);
+                    cunliPoint.setMap(map);
+                }
+
                 $.each(cunli_geojson, function(k, v) {
                     var cunli = new GeoJSON(cunli_geojson[k], style);
                     if (typeof cunli.setMap === 'function') {
-                        cunli.addListener('click', function() {
-                            alert(this.geojsonProperties['TV_ALL']);
-                        });
-                        var i = cunli.latLngs.getArray();
-                        bounds.extend(i['0']['j']['0']);
-                        cunli.setMap(map);
+                        pushPolygon(cunli, k);
+                    } else if (null !== cunli_geojson[k].geometry) {
+                        //MultiPolygon
+                        for (mk in cunli) {
+                            pushPolygon(cunli[mk], k);
+                        }
                     }
                 });
                 map.setCenter(bounds.getCenter());
