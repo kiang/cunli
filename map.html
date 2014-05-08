@@ -7,7 +7,6 @@
         <!--[if lt IE 9]>
           <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <!-- CSS code from Bootply.com editor -->
         <style type="text/css">
             html, body, #map_canvas { height: 100%; margin: 0;}
             body{
@@ -41,7 +40,7 @@
     </head>
     <body onload="initialize()">
         <div class="navbar navbar-custom navbar-fixed-top">
-            <div class="navbar-header"><a class="navbar-brand" href="#">Brand</a>
+            <div class="navbar-header"><a class="navbar-brand" href="#">村里</a>
                 <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -55,33 +54,13 @@
                     <li><a href="#">Link</a></li>
                     <li>&nbsp;</li>
                 </ul>
-                <form class="navbar-form">
-                    <div class="form-group" style="display:inline;">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Category 1</a></li>
-                                    <li><a href="#">Category 2</a></li>
-                                    <li><a href="#">Category 3</a></li>
-                                    <li><a href="#">Category 4</a></li>
-                                    <li><a href="#">Category 5</a></li> 
-                                </ul>
-                            </div>
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Category 1</a></li>
-                                    <li><a href="#">Category 2</a></li>
-                                    <li><a href="#">Category 3</a></li>
-                                    <li><a href="#">Category 4</a></li>
-                                    <li><a href="#">Category 5</a></li> 
-                                </ul>
-                            </div>
-                            <input type="text" class="form-control" placeholder="What are searching for?">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> </span>
-                        </div>
-                    </div>
+                <form class="form-inline" style="padding: 8px;">
+                    <select class="form-control select-county">
+                        <option value="0">縣市</option>
+                    </select>
+                    <select class="form-control select-town">
+                        <option value="0">鄉鎮市區</option>
+                    </select>
                 </form>
             </div>
         </div>
@@ -102,30 +81,68 @@
             var map = new google.maps.Map(document.getElementById("map_canvas"),
                     mapOptions);
 
-            $.getJSON('json/64000_64000120.json', function(data) {
-                var cunli_geojson = topojson.feature(data, data.objects.layer1).features;
-                var bounds = new google.maps.LatLngBounds;
+            var listInfo = [];
+            var overlays = [];
 
-                var style = {
-                    strokeColor: "#0000FF",
-                    strokeWeight: 1,
-                    strokeOpacity: 0.45,
-                    fillOpacity: 0.1,
-                };
+            $.getJSON('json/list.json', function(data) {
+                listInfo = data;
+                var countySelect = $('select.select-county');
+                countySelect.html('');
 
-                $.each(cunli_geojson, function(k, v) {
-                    var cunli = new GeoJSON(cunli_geojson[k], style);
-                    if (typeof cunli.setMap === 'function') {
-                        cunli.addListener('click', function() {
-                            alert(this.geojsonProperties['TV_ALL']);
-                        });
-                        var i = cunli.latLngs.getArray();
-                        bounds.extend(i['0']['j']['0']);
-                        cunli.setMap(map);
-                    }
+                $.each(listInfo.counties, function(k, v) {
+                    $('<option>').val(k).html(v).appendTo(countySelect);
                 });
-                map.setCenter(bounds.getCenter());
+
+                countySelect.change(function() {
+                    var selectedCountyId = $(this).val();
+                    var townSelect = $('select.select-town');
+                    townSelect.html('');
+                    $.each(listInfo.county2towns[selectedCountyId], function(k, v) {
+                        $('<option>').val(v).html(listInfo.towns[v]).appendTo(townSelect);
+                    });
+                    townSelect.trigger('change');
+                });
+                
+                countySelect.trigger('change');
             });
+
+            $('select.select-town').change(function() {
+                var selectedCountyId = $('select.select-county').val();
+                var selectedTownId = $(this).val();
+                if (selectedTownId !== '' && selectedTownId != '0') {
+                    $.getJSON('json/' + selectedCountyId + '_' + selectedTownId + '.json', function(data) {
+                        var cunli_geojson = topojson.feature(data, data.objects.layer1).features;
+                        var bounds = new google.maps.LatLngBounds;
+
+                        var style = {
+                            strokeColor: "#0000FF",
+                            strokeWeight: 1,
+                            strokeOpacity: 0.45,
+                            fillOpacity: 0.1,
+                        };
+                        
+                        $.each(overlays, function(k, v) {
+                            v.setMap(null);
+                        });
+                        overlays = [];
+
+                        $.each(cunli_geojson, function(k, v) {
+                            var cunli = new GeoJSON(cunli_geojson[k], style);
+                            if (typeof cunli.setMap === 'function') {
+                                cunli.addListener('click', function() {
+                                    alert(this.geojsonProperties['TV_ALL']);
+                                });
+                                var i = cunli.latLngs.getArray();
+                                bounds.extend(i['0']['j']['0']);
+                                cunli.setMap(map);
+                                overlays.push(cunli);
+                            }
+                        });
+                        map.setCenter(bounds.getCenter());
+                    });
+                }
+            });
+
         }
         </script>
     </body>
