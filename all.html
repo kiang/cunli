@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">
+            html, body, #map_canvas { height: 100%; margin: 0;}
+        </style>
+    </head>
+    <body onload="initialize()">
+        <div id="map_canvas" style="width:100%; height:100%"></div>
+        <script src="GeoJSON.js"></script>
+        <script src="topojson.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script>
+        initialize = function() {
+            var mapOptions = {
+                center: new google.maps.LatLng(21.896710512476858, 119.3151574766245),
+                zoom: 9,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                    mapOptions);
+
+            $.getJSON('102_05_21_3826.json', function(data) {
+                var cunli_geojson = topojson.feature(data, data.objects.layer1).features;
+                var bounds = new google.maps.LatLngBounds;
+
+                var style = {
+                    strokeColor: "#0000FF",
+                    fillColor: "#FF0000",
+                    strokeWeight: 1,
+                    strokeOpacity: 0.45
+                };
+
+                $.each(cunli_geojson, function(k, v) {
+                    var cunli = new GeoJSON(cunli_geojson[k], style);
+                    if (typeof cunli.setMap === 'function') {
+                        cunli.addListener('click', function() {
+                            alert(this.geojsonProperties['TV_ALL']);
+                        });
+                        var i = cunli.latLngs.getArray();
+                        bounds.extend(i['0']['j']['0']);
+                        cunli.setMap(map);
+                    }
+                });
+                map.setCenter(bounds.getCenter());
+            });
+
+        }
+        </script>
+    </body>
+</html>
