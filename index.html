@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+        <!--[if lt IE 9]>
+          <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <style type="text/css">
+            html, body, #map_canvas { height: 100%; margin: 0;}
+            body{
+                padding-top:50px; /*padding for navbar*/
+            }
+
+            .navbar-custom .icon-bar {
+                background-color:#fff;
+            }
+
+            .navbar-custom {
+                background-color: #168ccc;
+                color:#fff;
+            }
+
+            .navbar-custom li>a:hover,.navbar-custom li>a:focus {
+                background-color:#49bfff;
+            }
+
+            .navbar-custom a{
+                color:#fefefe;
+            }
+
+            .navbar-custom .form-control:focus {
+                border-color: #49bfff;
+                outline: 0;
+                -webkit-box-shadow: inset 0 0 0;
+                box-shadow: inset 0 0 0;
+            }
+        </style>
+    </head>
+    <body onload="initialize()">
+        <div class="navbar navbar-custom navbar-fixed-top">
+            <div class="navbar-header"><a class="navbar-brand" href="#">村里</a>
+                <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li>&nbsp;</li>
+                </ul>
+                <form class="form-inline" style="padding: 8px;">
+                    <select class="form-control select-county">
+                        <option value="0">縣市</option>
+                    </select>
+                    <select class="form-control select-town">
+                        <option value="0">鄉鎮市區</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div id="map_canvas" style="width:100%; height:100%"></div>
+        <script src="GeoJSON.js"></script>
+        <script src="topojson.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type='text/javascript' src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script>
+        initialize = function() {
+            var mapOptions = {
+                center: new google.maps.LatLng(21.896710512476858, 119.3151574766245),
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                    mapOptions);
+
+            var listInfo = [];
+            var overlays = [];
+
+            $.getJSON('json/list.json', function(data) {
+                listInfo = data;
+                var countySelect = $('select.select-county');
+                countySelect.html('');
+
+                $.each(listInfo.counties, function(k, v) {
+                    $('<option>').val(k).html(v).appendTo(countySelect);
+                });
+
+                countySelect.change(function() {
+                    var selectedCountyId = $(this).val();
+                    var townSelect = $('select.select-town');
+                    townSelect.html('');
+                    $.each(listInfo.county2towns[selectedCountyId], function(k, v) {
+                        $('<option>').val(v).html(listInfo.towns[v]).appendTo(townSelect);
+                    });
+                    townSelect.trigger('change');
+                });
+                
+                countySelect.trigger('change');
+            });
+
+            $('select.select-town').change(function() {
+                var selectedCountyId = $('select.select-county').val();
+                var selectedTownId = $(this).val();
+                if (selectedTownId !== '' && selectedTownId != '0') {
+                    $.getJSON('json/' + selectedCountyId + '_' + selectedTownId + '.json', function(data) {
+                        var cunli_geojson = topojson.feature(data, data.objects.layer1).features;
+                        var bounds = new google.maps.LatLngBounds;
+
+                        var style = {
+                            strokeColor: "#0000FF",
+                            strokeWeight: 1,
+                            strokeOpacity: 0.45,
+                            fillOpacity: 0.1,
+                        };
+                        
+                        $.each(overlays, function(k, v) {
+                            v.setMap(null);
+                        });
+                        overlays = [];
+
+                        $.each(cunli_geojson, function(k, v) {
+                            var cunli = new GeoJSON(cunli_geojson[k], style);
+                            if (typeof cunli.setMap === 'function') {
+                                cunli.addListener('click', function() {
+                                    alert(this.geojsonProperties['TV_ALL']);
+                                });
+                                var i = cunli.latLngs.getArray();
+                                bounds.extend(i['0']['j']['0']);
+                                cunli.setMap(map);
+                                overlays.push(cunli);
+                            }
+                        });
+                        map.setCenter(bounds.getCenter());
+                    });
+                }
+            });
+
+        }
+        </script>
+    </body>
+</html>
