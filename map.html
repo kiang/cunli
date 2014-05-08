@@ -19,7 +19,7 @@
                 var map = new google.maps.Map(document.getElementById("map_canvas"),
                         mapOptions);
 
-                $.getJSON('102_05_21_3826.json', function(data) {
+                $.getJSON('json/64000_64000120.json', function(data) {
                     var cunli_geojson = topojson.feature(data, data.objects.layer1).features;
 
                     var style = {

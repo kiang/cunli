@@ -7,20 +7,57 @@
  * twVillage1982.topo.json - https://github.com/g0v/twgeojson
  * tw-fix.topo.json - https://gist.github.com/clkao/5468139
  */
+
+// to apply the fixes from https://gist.github.com/clkao/5468139
+$fixes = explode("\n", file_get_contents('fix_102_05_21_3826.txt'));
+$fixStack = array();
+foreach ($fixes AS $fix) {
+    $items = explode(' ', $fix);
+    $fixStack[$items[1]] = $items[4];
+}
+
 $all = json_decode(file_get_contents('102_05_21_3826.json'), true);
 $blank = $all;
 $blank['objects']['layer1']['geometries'] = array();
 $stack = array();
+$listInfo = array(
+    'counties' => array(),
+    'towns' => array(),
+    'county2towns' => array(),
+    'town2county' => array(),
+);
 foreach($all['objects']['layer1']['geometries'] AS $k => $v) {
-    if(!isset($stack[$v['properties']['COUNTY']])) {
-        $stack[$v['properties']['COUNTY']] = array();
+    if(isset($fixStack[$v['properties']['V_ID']])) {
+        $v['properties']['VILLAGE'] = $fixStack[$v['properties']['V_ID']];
+        $v['properties']['TV_ALL'] = $v['properties']['TOWN'] . $fixStack[$v['properties']['V_ID']];
     }
-    $stack[$v['properties']['COUNTY']][] = $v;
+    
+    if(empty($v['properties']['COUNTY_ID']) || empty($v['properties']['TOWN_ID'])) {
+        continue;
+    }
+    
+    if(!isset($stack[$v['properties']['COUNTY_ID']])) {
+        $stack[$v['properties']['COUNTY_ID']] = array();
+        $listInfo['counties'][$v['properties']['COUNTY_ID']] = $v['properties']['COUNTY'];
+    }
+    if(!isset($stack[$v['properties']['COUNTY_ID']][$v['properties']['TOWN_ID']])) {
+        $stack[$v['properties']['COUNTY_ID']][$v['properties']['TOWN_ID']] = array();
+        $listInfo['towns'][$v['properties']['TOWN_ID']] = $v['properties']['TOWN'];
+        if(!isset($listInfo['county2towns'][$v['properties']['COUNTY_ID']])) {
+            $listInfo['county2towns'][$v['properties']['COUNTY_ID']] = array();
+        }
+        $listInfo['county2towns'][$v['properties']['COUNTY_ID']][] = $v['properties']['TOWN_ID'];
+        $listInfo['town2county'][$v['properties']['TOWN_ID']] = $v['properties']['COUNTY_ID'];
+    }
+    $stack[$v['properties']['COUNTY_ID']][$v['properties']['TOWN_ID']][] = $v;
 }
 
-foreach($stack AS $k => $county) {
-    $new = $blank;
-    $count = count($county);
-    $new['objects']['layer1']['geometries'] = $county;
-    file_put_contents("json/{$k}_{$count}.json", json_encode($new));
+file_put_contents("json/list.json", json_encode($listInfo));
+
+foreach($stack AS $countyId => $towns) {
+    foreach($towns AS $townId => $town) {
+        $new = $blank;
+        $new['objects']['layer1']['geometries'] = $town;
+        file_put_contents("json/{$countyId}_{$townId}.json", json_encode($new));
+    }
 }
