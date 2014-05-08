@@ -36,6 +36,10 @@
                 -webkit-box-shadow: inset 0 0 0;
                 box-shadow: inset 0 0 0;
             }
+            
+            .labelCunli {
+                color: #FF0000;
+            }
         </style>
     </head>
     <body onload="initialize()">
@@ -68,6 +72,7 @@
         <script src="GeoJSON.js"></script>
         <script src="topojson.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script type='text/javascript' src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script>
@@ -102,7 +107,7 @@
                     });
                     townSelect.trigger('change');
                 });
-                
+
                 countySelect.trigger('change');
             });
 
@@ -120,7 +125,7 @@
                             strokeOpacity: 0.45,
                             fillOpacity: 0.1,
                         };
-                        
+
                         $.each(overlays, function(k, v) {
                             v.setMap(null);
                         });
@@ -129,11 +134,37 @@
                         $.each(cunli_geojson, function(k, v) {
                             var cunli = new GeoJSON(cunli_geojson[k], style);
                             if (typeof cunli.setMap === 'function') {
-                                cunli.addListener('click', function() {
-                                    alert(this.geojsonProperties['TV_ALL']);
-                                });
                                 var i = cunli.latLngs.getArray();
-                                bounds.extend(i['0']['j']['0']);
+                                
+                                var labelBounds = new google.maps.LatLngBounds;
+                                
+                                for(lk in i['0']['j']) {
+                                    labelBounds.extend(i['0']['j'][lk]);
+                                }
+
+                                var myOptions = {
+                                    content: cunli_geojson[k].properties.TV_ALL
+                                    , boxStyle: {
+                                        border: "1px solid black"
+                                        , textAlign: "center"
+                                        , fontSize: "8pt"
+                                        , width: "80px"
+                                    }
+                                    , boxClass: 'labelCunli'
+                                    , disableAutoPan: true
+                                    , pixelOffset: new google.maps.Size(-25, 0)
+                                    , position: labelBounds.getCenter()
+                                    , closeBoxURL: ""
+                                    , isHidden: false
+                                    , pane: "mapPane"
+                                    , enableEventPropagation: true
+                                };
+
+                                var ibLabel = new InfoBox(myOptions);
+                                ibLabel.open(map);
+                                overlays.push(ibLabel);
+
+                                bounds.extend(labelBounds.getCenter());
                                 cunli.setMap(map);
                                 overlays.push(cunli);
                             }
