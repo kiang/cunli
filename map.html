@@ -88,7 +88,7 @@
 
             var listInfo = [];
             var overlays = [];
-            var lastPolygon;
+            var lastPolygon = {};
 
             $.getJSON('json/list.json', function(data) {
                 listInfo = data;
@@ -125,6 +125,7 @@
                             strokeWeight: 1,
                             strokeOpacity: 0.45,
                             fillOpacity: 0.1,
+                            fillColor: '#333300'
                         };
 
                         $.each(overlays, function(k, v) {
@@ -163,13 +164,27 @@
                             ibLabel.open(map);
                             overlays.push(ibLabel);
                             cunliPoint.addListener('click', function() {
-                                //var po = '';
-                                //lastPolygon = this;
+                                var po = '';
+                                if (typeof(lastPolygon.setOptions)  === 'function') {
+                                    lastPolygon.setOptions({
+                                        fillColor: '#333300',
+                                        fillOpacity: 0.1
+                                    });
+                                }
+
+                                lastPolygon = this;
                                 var latLngs = this.latLngs.getArray();
                                 var newBounds = new google.maps.LatLngBounds;
+                                for (k in lastPolygon) {
+                                    po += k + ' | ';
+                                }
+                                lastPolygon.setOptions({
+                                    fillColor: '#FFFF00',
+                                    fillOpacity: 0.6
+                                });
+
                                 latLngs[0].forEach(function(p) {
                                     newBounds.extend(p);
-                                    //po += p + ' | ';
                                 });
                                 map.setZoom(15);
                                 map.panTo(newBounds.getCenter());
