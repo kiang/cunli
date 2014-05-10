@@ -88,6 +88,7 @@
 
             var listInfo = [];
             var overlays = [];
+            var lastPolygon;
 
             $.getJSON('json/list.json', function(data) {
                 listInfo = data;
@@ -161,6 +162,19 @@
                             var ibLabel = new InfoBox(myOptions);
                             ibLabel.open(map);
                             overlays.push(ibLabel);
+                            cunliPoint.addListener('click', function() {
+                                //var po = '';
+                                //lastPolygon = this;
+                                var latLngs = this.latLngs.getArray();
+                                var newBounds = new google.maps.LatLngBounds;
+                                latLngs[0].forEach(function(p) {
+                                    newBounds.extend(p);
+                                    //po += p + ' | ';
+                                });
+                                map.setZoom(15);
+                                map.panTo(newBounds.getCenter());
+                                //alert(po);
+                            });
 
                             bounds.extend(labelBounds.getCenter());
                             cunliPoint.setMap(map);
@@ -173,7 +187,7 @@
                                 pushPolygon(cunli, k);
                             } else if (null !== cunli_geojson[k].geometry) {
                                 //MultiPolygon
-                                for(mk in cunli) {
+                                for (mk in cunli) {
                                     pushPolygon(cunli[mk], k);
                                 }
                             }
