@@ -9,14 +9,14 @@
  */
 
 // to apply the fixes from https://gist.github.com/clkao/5468139
-$fixes = explode("\n", file_get_contents('fix_102_05_21_3826.txt'));
+$fixes = explode("\n", file_get_contents('fix_102_05_21.txt'));
 $fixStack = array();
 foreach ($fixes AS $fix) {
     $items = explode(' ', $fix);
     $fixStack[$items[1]] = $items[4];
 }
 
-$all = json_decode(file_get_contents('102_05_21_3826.json'), true);
+$all = json_decode(file_get_contents('json/102_05_21_4326.topo.json'), true);
 $blank = $all;
 $blank['objects']['layer1']['geometries'] = array();
 $stack = array();
