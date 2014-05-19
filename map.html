@@ -136,11 +136,7 @@
                         var pushPolygon = function(cunliPoint, k) {
                             var i = cunliPoint.latLngs.getArray();
 
-                            var labelBounds = new google.maps.LatLngBounds;
-
-                            for (lk in i['0']['j']) {
-                                labelBounds.extend(i['0']['j'][lk]);
-                            }
+                            var gCenter = new google.maps.LatLng(cunli_geojson[k].properties.Y, cunli_geojson[k].properties.X);
 
                             var myOptions = {
                                 content: cunli_geojson[k].properties.TV_ALL
@@ -153,7 +149,7 @@
                                 , boxClass: 'labelCunli'
                                 , disableAutoPan: true
                                 , pixelOffset: new google.maps.Size(-25, 0)
-                                , position: labelBounds.getCenter()
+                                , position: gCenter
                                 , closeBoxURL: ""
                                 , isHidden: false
                                 , pane: "mapPane"
@@ -186,7 +182,7 @@
                                 map.panTo(newBounds.getCenter());
                             });
 
-                            bounds.extend(labelBounds.getCenter());
+                            bounds.extend(gCenter);
                             cunliPoint.setMap(map);
                             overlays.push(cunliPoint);
                         }
