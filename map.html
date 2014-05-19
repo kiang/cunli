@@ -164,7 +164,6 @@
                             ibLabel.open(map);
                             overlays.push(ibLabel);
                             cunliPoint.addListener('click', function() {
-                                var po = '';
                                 if (typeof(lastPolygon.setOptions)  === 'function') {
                                     lastPolygon.setOptions({
                                         fillColor: '#333300',
@@ -175,9 +174,6 @@
                                 lastPolygon = this;
                                 var latLngs = this.latLngs.getArray();
                                 var newBounds = new google.maps.LatLngBounds;
-                                for (k in lastPolygon) {
-                                    po += k + ' | ';
-                                }
                                 lastPolygon.setOptions({
                                     fillColor: '#FFFF00',
                                     fillOpacity: 0.6
@@ -188,7 +184,6 @@
                                 });
                                 map.setZoom(15);
                                 map.panTo(newBounds.getCenter());
-                                //alert(po);
                             });
 
                             bounds.extend(labelBounds.getCenter());
