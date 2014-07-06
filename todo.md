@@ -1,29 +1,29 @@
 #Todos & Notes 
-- �ثe�]�w��zoomlevel<15�A����ܨ����϶��A
-  �]���ӹL������ܰ϶��N�q���Ӥj
-	- [TODO]���ݭn�A�Q��k��Ϫ��d��A��X��
-- ���O�_�ݭn�A�ӽo�쨽 (���Ӳ`��code maintain���D)
-- ��ܨ���Label���ɭԷ|���쨽���϶��~��
-  �]���϶��i�๳�@�ӣv�r��
-	- ex: �y���� �y���� �_���������Ҹ��콲�꨽ 
-	- ex: �y���� Ĭ�D�� �F�D�����Ҧb����
-	- [TODO]�T�{Label�O�_�barea���A
-      �p�G���b�~���N�N���Һè쨽��������m
-      �ݭn�@�Ӻt��h��̨Φ�m
-    - ��Label��m��@��A�s�^�쥻��ư��[�t?
-	- �O�d�쥻Center����m��KsetCenter 
-      ��֤���W�B��?(�٬O�ʺA��N�n?)
+- 目前設定成zoomlevel<15，不顯示里的區塊，
+  因為太過擁擠顯示區塊意義不太大
+	- [TODO]但需要再想辦法把區的範圍再圈出來
+- 選單是否需要再細緻到里 (選單太深需code maintain問題)
+- 顯示里的Label有時候會落到里的區塊外面
+  因為區塊可能像一個ㄇ字型
+	- ex: 宜蘭縣 宜蘭市 北門里的標籤落到蔡圓里 
+	- ex: 宜蘭縣 蘇澳鎮 東澳里標籤在海里
+	- [TODO]確認Label是否在area內，
+      如果掉在外面就將標籤疑到里的中間位置
+      需要一個演算去算最佳位置
+    - 把Label位置算一算再存回原本資料做加速?
+	- 保留原本Center的位置方便setCenter 
+      減少手機上運算?(還是動態算就好?)
 	  
-- [TODO]�򥻤Wzoom level <12 �w�g�L�k��ܨ���� 
-  �ҥHcontrol panel ���ӬO�]�w�b>=12 ���̤pzoom 
-- [TODO]�]���C�Ӷm���������j���p�A�̾A�X��zoomlevel�i�ೣ���Ӥ@�ˡA
-  �ܤֿ���粒�����p�n���L���̾A�X��viewpoint
+- [TODO]基本上zoom level <12 已經無法顯示里資料 
+  所以control panel 應該是設定在>=12 為最小zoom 
+- [TODO]因為每個鄉鎮的里有大有小，最適合的zoomlevel可能都不太一樣，
+  至少選單剛選完的狀況要幫他算到最適合的viewpoint
   
-- [NOTE]zoomlevel 12~15 �����i�H���K��ܨ����H�ƩΤ@�ǲέp�ƾ�
-  (�n�����ݨ����������)
-  ���Ȩt�Υ��J...�|��?
+- [NOTE]zoomlevel 12~15 之間可以順便顯示里的人數或一些統計數據
+  (好像有看到類似的資料)
+  但怕系統失焦...會嗎?
  
-- [NOTE]�n�����ݨ�responsive�]�w������ù��o��p�����p�U
-  ���G�ݭn�ĤT�h��檽�����L�w���Ө���֦a�Ϸưʾާ@
+- [NOTE]好像有看到responsive設定但手機螢幕這麼小的情況下
+  似乎需要第三層選單直接幫他定位到該里減少地圖滑動操作
 
-- color style �ݭn�A�վ�@�U
+- color style 需要再調整一下
