@@ -1,27 +1,26 @@
 <?php
 
-/*
- * to import into db
- * 
- * CREATE TABLE IF NOT EXISTS `cunli` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `統計年月` varchar(10) DEFAULT NULL,
-  `區域別` varchar(10) DEFAULT NULL,
-  `村里` varchar(10) DEFAULT NULL,
-  `戶數` int(10) DEFAULT '0',  `人口數` int(10) DEFAULT '0',  `人口數-男` int(10) DEFAULT '0',  `人口數-女` int(10) DEFAULT '0',  `0M` int(10) DEFAULT '0',  `0F` int(10) DEFAULT '0',  `1M` int(10) DEFAULT '0',  `1F` int(10) DEFAULT '0',  `2M` int(10) DEFAULT '0',  `2F` int(10) DEFAULT '0',  `3M` int(10) DEFAULT '0',  `3F` int(10) DEFAULT '0',  `4M` int(10) DEFAULT '0',  `4F` int(10) DEFAULT '0',  `5M` int(10) DEFAULT '0',  `5F` int(10) DEFAULT '0',  `6M` int(10) DEFAULT '0',  `6F` int(10) DEFAULT '0',  `7M` int(10) DEFAULT '0',  `7F` int(10) DEFAULT '0',  `8M` int(10) DEFAULT '0',  `8F` int(10) DEFAULT '0',  `9M` int(10) DEFAULT '0',  `9F` int(10) DEFAULT '0',  `10M` int(10) DEFAULT '0',  `10F` int(10) DEFAULT '0',  `11M` int(10) DEFAULT '0',  `11F` int(10) DEFAULT '0',  `12M` int(10) DEFAULT '0',  `12F` int(10) DEFAULT '0',  `13M` int(10) DEFAULT '0',  `13F` int(10) DEFAULT '0',  `14M` int(10) DEFAULT '0',  `14F` int(10) DEFAULT '0',  `15M` int(10) DEFAULT '0',  `15F` int(10) DEFAULT '0',  `16M` int(10) DEFAULT '0',  `16F` int(10) DEFAULT '0',  `17M` int(10) DEFAULT '0',  `17F` int(10) DEFAULT '0',  `18M` int(10) DEFAULT '0',  `18F` int(10) DEFAULT '0',  `19M` int(10) DEFAULT '0',  `19F` int(10) DEFAULT '0',  `20M` int(10) DEFAULT '0',  `20F` int(10) DEFAULT '0',  `21M` int(10) DEFAULT '0',  `21F` int(10) DEFAULT '0',  `22M` int(10) DEFAULT '0',  `22F` int(10) DEFAULT '0',  `23M` int(10) DEFAULT '0',  `23F` int(10) DEFAULT '0',  `24M` int(10) DEFAULT '0',  `24F` int(10) DEFAULT '0',  `25M` int(10) DEFAULT '0',  `25F` int(10) DEFAULT '0',  `26M` int(10) DEFAULT '0',  `26F` int(10) DEFAULT '0',  `27M` int(10) DEFAULT '0',  `27F` int(10) DEFAULT '0',  `28M` int(10) DEFAULT '0',  `28F` int(10) DEFAULT '0',  `29M` int(10) DEFAULT '0',  `29F` int(10) DEFAULT '0',  `30M` int(10) DEFAULT '0',  `30F` int(10) DEFAULT '0',  `31M` int(10) DEFAULT '0',  `31F` int(10) DEFAULT '0',  `32M` int(10) DEFAULT '0',  `32F` int(10) DEFAULT '0',  `33M` int(10) DEFAULT '0',  `33F` int(10) DEFAULT '0',  `34M` int(10) DEFAULT '0',  `34F` int(10) DEFAULT '0',  `35M` int(10) DEFAULT '0',  `35F` int(10) DEFAULT '0',  `36M` int(10) DEFAULT '0',  `36F` int(10) DEFAULT '0',  `37M` int(10) DEFAULT '0',  `37F` int(10) DEFAULT '0',  `38M` int(10) DEFAULT '0',  `38F` int(10) DEFAULT '0',  `39M` int(10) DEFAULT '0',  `39F` int(10) DEFAULT '0',  `40M` int(10) DEFAULT '0',  `40F` int(10) DEFAULT '0',  `41M` int(10) DEFAULT '0',  `41F` int(10) DEFAULT '0',  `42M` int(10) DEFAULT '0',  `42F` int(10) DEFAULT '0',  `43M` int(10) DEFAULT '0',  `43F` int(10) DEFAULT '0',  `44M` int(10) DEFAULT '0',  `44F` int(10) DEFAULT '0',  `45M` int(10) DEFAULT '0',  `45F` int(10) DEFAULT '0',  `46M` int(10) DEFAULT '0',  `46F` int(10) DEFAULT '0',  `47M` int(10) DEFAULT '0',  `47F` int(10) DEFAULT '0',  `48M` int(10) DEFAULT '0',  `48F` int(10) DEFAULT '0',  `49M` int(10) DEFAULT '0',  `49F` int(10) DEFAULT '0',  `50M` int(10) DEFAULT '0',  `50F` int(10) DEFAULT '0',  `51M` int(10) DEFAULT '0',  `51F` int(10) DEFAULT '0',  `52M` int(10) DEFAULT '0',  `52F` int(10) DEFAULT '0',  `53M` int(10) DEFAULT '0',  `53F` int(10) DEFAULT '0',  `54M` int(10) DEFAULT '0',  `54F` int(10) DEFAULT '0',  `55M` int(10) DEFAULT '0',  `55F` int(10) DEFAULT '0',  `56M` int(10) DEFAULT '0',  `56F` int(10) DEFAULT '0',  `57M` int(10) DEFAULT '0',  `57F` int(10) DEFAULT '0',  `58M` int(10) DEFAULT '0',  `58F` int(10) DEFAULT '0',  `59M` int(10) DEFAULT '0',  `59F` int(10) DEFAULT '0',  `60M` int(10) DEFAULT '0',  `60F` int(10) DEFAULT '0',  `61M` int(10) DEFAULT '0',  `61F` int(10) DEFAULT '0',  `62M` int(10) DEFAULT '0',  `62F` int(10) DEFAULT '0',  `63M` int(10) DEFAULT '0',  `63F` int(10) DEFAULT '0',  `64M` int(10) DEFAULT '0',  `64F` int(10) DEFAULT '0',  `65M` int(10) DEFAULT '0',  `65F` int(10) DEFAULT '0',  `66M` int(10) DEFAULT '0',  `66F` int(10) DEFAULT '0',  `67M` int(10) DEFAULT '0',  `67F` int(10) DEFAULT '0',  `68M` int(10) DEFAULT '0',  `68F` int(10) DEFAULT '0',  `69M` int(10) DEFAULT '0',  `69F` int(10) DEFAULT '0',  `70M` int(10) DEFAULT '0',  `70F` int(10) DEFAULT '0',  `71M` int(10) DEFAULT '0',  `71F` int(10) DEFAULT '0',  `72M` int(10) DEFAULT '0',  `72F` int(10) DEFAULT '0',  `73M` int(10) DEFAULT '0',  `73F` int(10) DEFAULT '0',  `74M` int(10) DEFAULT '0',  `74F` int(10) DEFAULT '0',  `75M` int(10) DEFAULT '0',  `75F` int(10) DEFAULT '0',  `76M` int(10) DEFAULT '0',  `76F` int(10) DEFAULT '0',  `77M` int(10) DEFAULT '0',  `77F` int(10) DEFAULT '0',  `78M` int(10) DEFAULT '0',  `78F` int(10) DEFAULT '0',  `79M` int(10) DEFAULT '0',  `79F` int(10) DEFAULT '0',  `80M` int(10) DEFAULT '0',  `80F` int(10) DEFAULT '0',  `81M` int(10) DEFAULT '0',  `81F` int(10) DEFAULT '0',  `82M` int(10) DEFAULT '0',  `82F` int(10) DEFAULT '0',  `83M` int(10) DEFAULT '0',  `83F` int(10) DEFAULT '0',  `84M` int(10) DEFAULT '0',  `84F` int(10) DEFAULT '0',  `85M` int(10) DEFAULT '0',  `85F` int(10) DEFAULT '0',  `86M` int(10) DEFAULT '0',  `86F` int(10) DEFAULT '0',  `87M` int(10) DEFAULT '0',  `87F` int(10) DEFAULT '0',  `88M` int(10) DEFAULT '0',  `88F` int(10) DEFAULT '0',  `89M` int(10) DEFAULT '0',  `89F` int(10) DEFAULT '0',  `90M` int(10) DEFAULT '0',  `90F` int(10) DEFAULT '0',  `91M` int(10) DEFAULT '0',  `91F` int(10) DEFAULT '0',  `92M` int(10) DEFAULT '0',  `92F` int(10) DEFAULT '0',  `93M` int(10) DEFAULT '0',  `93F` int(10) DEFAULT '0',  `94M` int(10) DEFAULT '0',  `94F` int(10) DEFAULT '0',  `95M` int(10) DEFAULT '0',  `95F` int(10) DEFAULT '0',  `96M` int(10) DEFAULT '0',  `96F` int(10) DEFAULT '0',  `97M` int(10) DEFAULT '0',  `97F` int(10) DEFAULT '0',  `98M` int(10) DEFAULT '0',  `98F` int(10) DEFAULT '0',  `99M` int(10) DEFAULT '0',  `99F` int(10) DEFAULT '0',  `100upM` int(10) DEFAULT '0',  `100upF` int(10) DEFAULT '0',  PRIMARY KEY (`id`)
-  );
- * 
- * $q = new mysqli('localhost', 'root', '--', 'kiang_cunli');
- * 
- */
+$baseNames = array();
+$bnFh = fopen('villages.csv', 'r');
+fgetcsv($bnFh, 2048);
+while ($line = fgetcsv($bnFh, 2048)) {
+    if (!isset($baseNames[$line[4]])) {
+        $baseNames[$line[4]] = array();
+    }
+    if (!isset($baseNames[$line[4]][$line[3]])) {
+        $baseNames[$line[4]][$line[3]] = array();
+    }
+    $baseNames[$line[4]][$line[3]][$line[2]] = $line[1];
+}
 
-$areas = array();
+$resultFh = false;
+
 foreach (glob('10304_age_cityname/*.csv') AS $csvFile) {
     $fh = fopen($csvFile, 'r');
     $fieldNames = array();
     $fieldNamesDone = false;
     while ($line = fgetcsv($fh, 2048)) {
-        if (false === $fieldNamesDone) {
+        if (false === $fieldNamesDone && false === $resultFh) {
             $fieldNames = array_merge($fieldNames, $line);
             if (count($fieldNames) === 211) {
                 foreach ($fieldNames AS $k => $v) {
@@ -30,13 +29,15 @@ foreach (glob('10304_age_cityname/*.csv') AS $csvFile) {
                         unset($fieldNames[$k]);
                     } else {
                         $fieldNames[$k] = str_replace(array(
-                            '歲-男', '歲-女', '歲以上-男', '歲以上-女', pack('H*', 'EFBBBF'),
+                            '歲-男', '歲-女', '歲以上-男', '歲以上-女', pack('H*', 'EFBBBF'), //BOM characters
                                 ), array(
                             'M', 'F', 'upM', 'upF', '',
                                 ), $v);
                     }
                 }
                 $fieldNames[] = '';
+                $resultFh = fopen('10304_age.csv', 'w');
+                fputcsv($resultFh, $fieldNames);
                 $fieldNamesDone = true;
             }
             continue;
@@ -62,67 +63,148 @@ foreach (glob('10304_age_cityname/*.csv') AS $csvFile) {
               [6] => 人口數-女
              */
             $line[1] = str_replace(' ', '', $line[1]);
-            if (!isset($areas[$line[1]])) {
-                $areas[$line[1]] = array();
+            $county = mb_substr($line[1], 0, 3, 'utf-8');
+            $town = mb_substr($line[1], 3, null, 'utf-8');
+            switch ($town) {
+                case '三民一':
+                case '三民二':
+                    $town = '三民區';
+                    break;
+                case '鳳山一':
+                case '鳳山二':
+                    $town = '鳳山區';
+                    break;
             }
-            $areas[$line[1]][$line[2]] = true;
+            switch ($line[1] . $line[2]) {
+                case '桃園縣蘆竹市上竹村':
+                case '桃園縣蘆竹市上興村':
+                case '桃園縣蘆竹市中山村':
+                case '桃園縣蘆竹市中福村':
+                case '桃園縣蘆竹市中興村':
+                case '桃園縣蘆竹市五福村':
+                case '桃園縣蘆竹市內厝村':
+                case '桃園縣蘆竹市南崁村':
+                case '桃園縣蘆竹市南榮村':
+                case '桃園縣蘆竹市南興村':
+                case '桃園縣蘆竹市吉祥村':
+                case '桃園縣蘆竹市坑口村':
+                case '桃園縣蘆竹市坑子村':
+                case '桃園縣蘆竹市外社村':
+                case '桃園縣蘆竹市大竹村':
+                case '桃園縣蘆竹市宏竹村':
+                case '桃園縣蘆竹市富竹村':
+                case '桃園縣蘆竹市山腳村':
+                case '桃園縣蘆竹市山鼻村':
+                case '桃園縣蘆竹市新興村':
+                case '桃園縣蘆竹市新莊村':
+                case '桃園縣蘆竹市海湖村':
+                case '桃園縣蘆竹市營盤村':
+                case '桃園縣蘆竹市營福村':
+                case '桃園縣蘆竹市瓦窯村':
+                case '桃園縣蘆竹市福昌村':
+                case '桃園縣蘆竹市福祿村':
+                case '桃園縣蘆竹市福興村':
+                case '桃園縣蘆竹市羊稠村':
+                case '桃園縣蘆竹市興榮村':
+                case '桃園縣蘆竹市蘆竹村':
+                case '桃園縣蘆竹市蘆興村':
+                case '桃園縣蘆竹市錦中村':
+                case '桃園縣蘆竹市錦興村':
+                case '桃園縣蘆竹市長壽村':
+                case '桃園縣蘆竹市長興村':
+                case '桃園縣蘆竹市順興村':
+                    $line[2] = str_replace('村', '里', $line[2]);
+                    break;
+                case '彰化縣彰化市下廍里':
+                    $line[2] = '下廍里';
+                    break;
+                case '彰化縣彰化市南瑶里':
+                    $line[2] = '南詋里';
+                    break;
+                case '彰化縣彰化市寶廍里':
+                    $line[2] = '寶廍里';
+                    break;
+                case '彰化縣彰化市磚󿾨里':
+                    $line[2] = '磚磘里';
+                    break;
+                case '彰化縣埔鹽鄉瓦󿾨村':
+                    $line[2] = '瓦磘村';
+                    break;
+                case '彰化縣埔心鄉南舘村':
+                    $line[2] = '南館村';
+                    break;
+                case '彰化縣埔心鄉埤脚村':
+                    $line[2] = '埤肑村';
+                    break;
+                case '彰化縣埔心鄉新舘村':
+                    $line[2] = '新館村';
+                    break;
+                case '彰化縣埔心鄉舊舘村':
+                    $line[2] = '舊館村';
+                    break;
+                case '彰化縣二水鄉上豊村':
+                    $line[2] = '上豐村';
+                    break;
+                case '南投縣竹山鎮硘󿾨里':
+                    $line[2] = '硘磘里';
+                    break;
+                case '雲林縣麥寮鄉瓦󿾨村': //missing 雲林縣麥寮鄉中興村
+                    $line[2] = '瓦磘村';
+                    break;
+                case '雲林縣元長鄉瓦󿾨村':
+                    $line[2] = '瓦磘村';
+                    break;
+                case '雲林縣四湖鄉󿿀子村':
+                    $line[2] = '箔子村';
+                    break;
+                case '雲林縣四湖鄉󿿀東村':
+                    $line[2] = '箔東村';
+                    break;
+                case '嘉義縣中埔鄉塩舘村':
+                    $line[2] = '雙館村';
+                    break;
+                case '嘉義縣中埔鄉石硦村':
+                    $line[2] = '石哢村';
+                    break;
+                case '嘉義縣竹崎鄉文峯村':
+                    $line[2] = '文号村';
+                    break;
+                case '屏東縣新園鄉瓦󿾨村':
+                    $line[2] = '瓦磘村';
+                    break;
+                case '澎湖縣馬公市󼱹裡里':
+                    $line[2] = '嵵裡里';
+                    break;
+                case '嘉義市西區磚󿾨里':
+                    $line[2] = '磚磘里';
+                    break;
+                case '高雄市左營區復興里': //??
+                    $cunliKey = '64000030-014';
+                    break;
+                case '新北市中和區瓦󿾨里': // missing 新北市中和區灰磘里
+                    $line[2] = '瓦磘里';
+                    break;
+                case '新北市樹林區󿾵寮里':
+                    $line[2] = '獇寮里';
+                    break;
+                case '臺中市大安區龜売里':
+                    $line[2] = '龜壳里';
+                    break;
+                case '臺南市安南區公󻕯里':
+                    $line[2] = '公塭里';
+                    break;
+                case '臺南市安南區󻕯南里':
+                    $line[2] = '塭南里';
+                    break;
+            }
+            if (isset($baseNames[$county][$town][$line[2]])) {
+                $cunliKey = $baseNames[$county][$town][$line[2]];
+                $line[1] = $cunliKey;
+                $line[2] = "{$county}{$town}{$line[2]}";
+                fputcsv($resultFh, $line);
+            }
         }
     }
     fclose($fh);
 }
-//print_r($areas);
-$diff1 = array();
-$diff2 = $areas;
-$newStack = array(
-    '高雄市三民區' => array(),
-    '高雄市鳳山區' => array(),
-);
-$list = json_decode(file_get_contents('json/list.json'), true);
-foreach ($list['county2towns'] AS $countyId => $towns) {
-    foreach ($towns AS $townId) {
-        $listArea = $list['counties'][$countyId] . $list['towns'][$townId];
-        $listArea = str_replace(array('臺中市龍井區(海)', '桃園縣蘆竹鄉'), array('臺中市龍井區', '桃園縣蘆竹市'), $listArea);
-        /*
-         * to find differences in areas
-         * 
-          if(!isset($areas[$listArea])) {
-          echo "{$listArea}\n";
-          } else {
-          unset($areas[$listArea]);
-          }
-         * 
-         */
-        $townJson = json_decode(file_get_contents("json/{$countyId}_{$townId}.json"), true);
-
-        foreach ($townJson['objects']['layer1']['geometries'] AS $geometry) {
-            if (!isset($diff2[$listArea][$geometry['properties']['VILLAGE']])) {
-                $diff1[$listArea . $geometry['properties']['VILLAGE']] = true;
-            } else {
-                unset($diff2[$listArea][$geometry['properties']['VILLAGE']]);
-                if(empty($diff2[$listArea])) {
-                    unset($diff2[$listArea]);
-                }
-            }
-            switch ($listArea) {
-                case '高雄市三民區':
-                    $newStack['高雄市三民區'][] = $geometry['properties']['VILLAGE'];
-                    break;
-                case '高雄市鳳山區':
-                    $newStack['高雄市鳳山區'][] = $geometry['properties']['VILLAGE'];
-                    break;
-            }
-        }
-    }
-}
-$towns = array('高雄市三民一', '高雄市三民二', '高雄市鳳山一', '高雄市鳳山二');
-foreach($towns AS $town) {
-    foreach($diff2[$town] AS $k => $v) {
-        $townK = str_replace(array('一', '二'), array('區', '區'), $town);
-        if(isset($diff1[$townK.$k])) {
-            unset($diff1[$townK.$k]);
-            unset($diff2[$town][$k]);
-        }
-    }
-}
-print_r($diff1);
-print_r($diff2);
+fclose($resultFh);
