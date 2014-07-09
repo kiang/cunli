@@ -178,9 +178,9 @@ foreach (glob('10304_age_cityname/*.csv') AS $csvFile) {
                 case '嘉義市西區磚󿾨里':
                     $line[2] = '磚磘里';
                     break;
-                case '高雄市左營區復興里': //??
-                    $cunliKey = '64000030-014';
-                    break;
+//                case '高雄市左營區復興里': //??
+//                    $cunliKey = '64000030-014';
+//                    break;
                 case '新北市中和區瓦󿾨里': // missing 新北市中和區灰磘里
                     $line[2] = '瓦磘里';
                     break;
@@ -199,12 +199,27 @@ foreach (glob('10304_age_cityname/*.csv') AS $csvFile) {
             }
             if (isset($baseNames[$county][$town][$line[2]])) {
                 $cunliKey = $baseNames[$county][$town][$line[2]];
+                unset($baseNames[$county][$town][$line[2]]);
                 $line[1] = $cunliKey;
                 $line[2] = "{$county}{$town}{$line[2]}";
                 fputcsv($resultFh, $line);
+                if(empty($baseNames[$county][$town])) {
+                    unset($baseNames[$county][$town]);
+                }
+                if(empty($baseNames[$county])) {
+                    unset($baseNames[$county]);
+                }
             }
         }
     }
     fclose($fh);
 }
 fclose($resultFh);
+
+foreach($baseNames AS $county => $d1) {
+    foreach($d1 AS $town => $d2) {
+        foreach($d2 AS $cunli => $id) {
+            echo "[{$id}]{$county}{$town}{$cunli}\n";
+        }
+    }
+}
